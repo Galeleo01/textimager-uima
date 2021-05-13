@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 import java.lang.ProcessBuilder.Redirect;
 import java.util.ArrayList;
 
+import jep.JepException;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.fit.descriptor.ConfigurationParameter;
 import org.apache.uima.fit.descriptor.TypeCapability;
@@ -16,6 +17,29 @@ import org.apache.uima.jcas.JCas;
 import de.tudarmstadt.ukp.dkpro.core.api.parameter.ComponentParameters;
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.SegmenterBase;
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
+import tansliterationAnnotation.type.TransliterationAnnotation;
+
+import static org.apache.uima.fit.util.JCasUtil.select;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import de.tudarmstadt.ukp.dkpro.core.api.resources.MappingProvider;
+import de.tudarmstadt.ukp.dkpro.core.api.resources.MappingProviderFactory;
+import org.apache.uima.UimaContext;
+import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
+import org.apache.uima.fit.descriptor.ConfigurationParameter;
+import org.apache.uima.fit.descriptor.TypeCapability;
+import org.apache.uima.jcas.JCas;
+
+import de.tudarmstadt.ukp.dkpro.core.api.parameter.ComponentParameters;
+import de.tudarmstadt.ukp.dkpro.core.api.segmentation.SegmenterBase;
+import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
+import org.apache.uima.resource.ResourceInitializationException;
 import tansliterationAnnotation.type.TransliterationAnnotation;
 
 /**
@@ -32,112 +56,111 @@ import tansliterationAnnotation.type.TransliterationAnnotation;
 @TypeCapability(
 		inputs = {"de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token"},
 		outputs = {"tansliterationAnnotation.type.TransliterationAnnotation"})
-public class PolyglotTransliteration  extends SegmenterBase {
-	
-	/**
-     * Load the PythonPATH
-     */
-    public static final String PARAM_PYTHON_PATH = "PythonPathPolyglot";
-    @ConfigurationParameter(name = PARAM_PYTHON_PATH, mandatory = false)
-    protected String PythonPATH;
-	
-	/**
-     * Load the toLanguage-Tag
-     */
-    public static final String PARAM_TO_LANGUAGE_CODE = "ToLanguageCode";
-    @ConfigurationParameter(name = PARAM_TO_LANGUAGE_CODE, mandatory = false)
-    protected String toLanguageCode;
-	
-    public static final String PARAM_POLYGLOT_PATH = "PolyglotPath";
-    @ConfigurationParameter(name = PARAM_POLYGLOT_PATH, mandatory = false)
-    protected String POLYGLOT_LOCATION;
-    
-	/**
-	 * Analyze the text and create Transliteration-Tag. After successfully creation, add Transliteration to JCas.
-	 * @param aJCas
-	 */
+public class PolyglotTransliteration  extends PolyglotBase {
+
+	private MappingProvider mappingProvider;
+
+	@Override
+	public void initialize(UimaContext aContext) throws ResourceInitializationException, ResourceInitializationException {
+		super.initialize(aContext);
+
+		// TODO defaults for de (stts) and en (ptb) are ok, add own language mapping later
+		//mappingProvider = MappingProviderFactory.createPosMappingProvider(aContext, posMappingLocation, variant, language);
+
+		try {
+			System.out.println("initializing polyplot models...");
+			interpreter.exec("nlps = {}");
+		} catch (JepException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+
+
 	@Override
 	public void process(JCas aJCas) throws AnalysisEngineProcessException {
-		if(POLYGLOT_LOCATION == null) {
-			POLYGLOT_LOCATION = "src/main/resources/org/hucompute/textimager/uima/polyglot/python/";
+		/// DEBUG START
+		// remove all token, sentences, pos, ner, dep
+		//for (Sentence sentence : JCasUtil.select(aJCas, Sentence.class)) {
+		//	sentence.removeFromIndexes();
+		//}
+		//for (NamedEntity ne : JCasUtil.select(aJCas, NamedEntity.class)) {
+		//	ne.removeFromIndexes();
+		//}
+		//for (POS pos : JCasUtil.select(aJCas, POS.class)) {
+		//	pos.removeFromIndexes();
+		//}
+		//for (Dependency dep : JCasUtil.select(aJCas, Dependency.class)) {
+		//	dep.removeFromIndexes();
+		//}
+		//for (ROOT dep : JCasUtil.select(aJCas, ROOT.class)) {
+		//	dep.removeFromIndexes();
+		//}
+		//for (Token token : JCasUtil.select(aJCas, Token.class)) {
+		//	token.removeFromIndexes();
+		//}
+		/// DEBUG END
+
+		long textLength = aJCas.getDocumentText().length();
+		System.out.println("text length: " + textLength);
+		// abort on empty
+		if (textLength < 1) {
+			System.out.println("skipping spacy due to text length < 1");
+			return;
 		}
-		String inputText = aJCas.getDocumentText();
-		        
-    	// Define ProcessBuilder
-        ProcessBuilder pb = new ProcessBuilder(PythonPATH, POLYGLOT_LOCATION + "language.py", "transliteration", inputText, toLanguageCode);
-        pb.redirectError(Redirect.INHERIT);
-        
-        boolean success = false;
-        Process proc = null;
-        
-        try {
-	    	// Start Process
-	        proc = pb.start();
-	
-	        // IN, ERROR Streams
-	        BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
-	        BufferedReader error = new BufferedReader(new InputStreamReader(proc.getErrorStream()));
-	      
-	        StringBuilder builder = new StringBuilder();
-					String line = null;
-					while ( (line = in.readLine()) != null) {
-					   builder.append(line);
-					   builder.append(System.getProperty("line.separator"));
-					}
-			String result = builder.toString();
-			String[] resultInParts = result.split("\n");
-			
-			// Create an ArrayList of all token, because Transliteration-library doesn't output begin/end of token. Calculate it manually.
-			ArrayList<Token> T = new ArrayList<Token>();
-			for (Token token : select(aJCas, Token.class)) {
-				T.add(token);
+
+
+			List<String> texts = new ArrayList<>();
+				// split text on "." near "nlp.max_length (= " characters
+				StringBuilder sb = new StringBuilder();
+				String[] textParts = aJCas.getDocumentText().split("\\.", 0);
+				for (String textPart : textParts) {
+					sb.append(textPart).append(".");
+				}
+				// handle rest
+				if (sb.length() > 0) {
+					if(!aJCas.getDocumentText().endsWith("."))
+						sb.setLength(sb.length()-1);
+					texts.add(sb.toString());
+				}
+
+				else {
+					texts.add(aJCas.getDocumentText());
+				}
+
+			int beginOffset = 0;
+			int counter = 0;
+			for (String text : texts) {
+				counter++;
+				System.out.println("processing text part " + counter + "/" + texts.size());
+
+				// text to python interpreter
+				try {
+					interpreter.set("text", (Object) text);
+					interpreter.exec("doc = Text(text)");
+
+					interpreter.exec("transliterate = [x for x in doc.transliterate('ar')]");
+				} catch (JepException jepException) {
+					jepException.printStackTrace();
+				}
+				// Sentences
+						//processSentences(aJCas, beginOffset);
+
+				// Tokenizer
+				//Map<Integer, Map<Integer, Token>> tokensMap = processToken(aJCas, beginOffset);
+
+				// Tagger
+				//processPOS(aJCas, beginOffset, tokensMap);
+
+				// PARSER
+				//processDep(aJCas, beginOffset, tokensMap);
+
+				// NER
+				//processNER(aJCas, beginOffset);
+
+				beginOffset += text.length();
 			}
 
-			// Only process sentence if Transliteration is found.
-			if(result.length() != 0 && resultInParts.length > 0) {
-				// Create transliteration for every token.
-				for(int i = 0; i < resultInParts.length; i++) {
-					TransliterationAnnotation transliteration = new TransliterationAnnotation(aJCas, T.get(i).getBegin(), T.get(i).getEnd());
-					transliteration.setValue(resultInParts[i]);
-					transliteration.addToIndexes();
-				}
-			}
-				
-	        // Get Errors
-             String errorString = "";
-			 line = "";
-			 try {
-				while ((line = error.readLine()) != null) {
-					errorString += line+"\n";
-				}
-			 } catch (IOException e) {
-				e.printStackTrace();
-			 }
-
-			 // Log Error
-			 if(errorString != "")
-			 getLogger().error(errorString);
-			 
-             success = true;
-        }
-        catch (IOException e) {
-            throw new AnalysisEngineProcessException(e);
-        }
-        
-        finally {
-            if (!success) {
-
-            }
-            
-            if (proc != null) {
-                proc.destroy();
-            }
-        }
 	}
-	
-	@Override
-	protected void process(JCas aJCas, String text, int zoneBegin) throws AnalysisEngineProcessException {		
-			
-	}
-
 }

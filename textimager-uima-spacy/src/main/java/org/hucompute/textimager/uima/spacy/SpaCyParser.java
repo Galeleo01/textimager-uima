@@ -29,8 +29,8 @@ public class SpaCyParser extends SpaCyBase {
 
 	@Override
 	public void process(JCas aJCas) throws AnalysisEngineProcessException {
-		/*HashMap<String, Object>  json = buildJSON(aJCas);
-		try {
+		HashMap<String, Object>  json = buildJSON(aJCas);
+		/*try {
 			interp.set("lang", aJCas.getDocumentLanguage());
 			interp.set("words",json.get("words"));
 			interp.set("spaces",json.get("spaces"));

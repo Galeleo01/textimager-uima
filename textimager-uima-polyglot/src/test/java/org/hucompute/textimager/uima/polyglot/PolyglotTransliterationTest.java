@@ -31,20 +31,27 @@ public class PolyglotTransliterationTest {
 	@Test
 	public void testTransliterationArabian() throws Exception {
 		// Create a new Engine Description.
-		AnalysisEngineDescription languageAnnotator = createEngineDescription(PolyglotLanguage.class, PolyglotLanguage.PARAM_PYTHON_PATH, "/usr/bin/python");
-		AnalysisEngineDescription sentenceAnnotator = createEngineDescription(PolyglotSentenceBoundary.class, PolyglotSentenceBoundary.PARAM_PYTHON_PATH, "/usr/bin/python");
-		AnalysisEngineDescription tokenAnnotator = createEngineDescription(PolyglotTokenizer.class, PolyglotTokenizer.PARAM_PYTHON_PATH, "/usr/bin/python");
-		AnalysisEngineDescription transliterationAnnotator = createEngineDescription(PolyglotTransliteration.class, PolyglotTransliteration.PARAM_PYTHON_PATH, "/usr/bin/python", PolyglotTransliteration.PARAM_TO_LANGUAGE_CODE, "ar");
+		//AnalysisEngineDescription languageAnnotator = createEngineDescription(PolyglotLanguage.class, PolyglotLanguage.PARAM_PYTHON_PATH, "/usr/bin/python");
+		//AnalysisEngineDescription sentenceAnnotator = createEngineDescription(PolyglotSentenceBoundary.class, PolyglotSentenceBoundary.PARAM_PYTHON_PATH, "/usr/bin/python");
+		//AnalysisEngineDescription tokenAnnotator = createEngineDescription(PolyglotTokenizer.class, PolyglotTokenizer.PARAM_PYTHON_PATH, "/usr/bin/python");
+		//AnalysisEngineDescription transliterationAnnotator = createEngineDescription(PolyglotTransliteration.class, PolyglotTransliteration.PARAM_PYTHON_PATH, "/usr/bin/python", PolyglotTransliteration.PARAM_TO_LANGUAGE_CODE, "ar");
 		
 		// Create a new JCas - "Holder"-Class for Annotation. 
-		JCas inputCas = JCasFactory.createJCas();
+		//JCas inputCas = JCasFactory.createJCas();
 		
 		// Input
-		inputCas.setDocumentText("Das Essen gestern Nacht hat großartig geschmeckt, obwohl der Fisch schlecht.");
+		//inputCas.setDocumentText("Das Essen gestern Nacht hat großartig geschmeckt, obwohl der Fisch schlecht.");
 		
 		// Pipeline
-		SimplePipeline.runPipeline(inputCas, languageAnnotator, sentenceAnnotator, tokenAnnotator, transliterationAnnotator);
-		
+		//SimplePipeline.runPipeline(inputCas, languageAnnotator, sentenceAnnotator, tokenAnnotator, transliterationAnnotator);
+		//SimplePipeline.runPipeline(inputCas, transliterationAnnotator);
+
+
+		JCas cas = JCasFactory.createText("Das ist ein IPhone von Apple.", "de");
+
+		AnalysisEngineDescription polyglottransliteration = createEngineDescription(PolyglotTransliteration.class);
+
+		SimplePipeline.runPipeline(cas, polyglottransliteration);
 		// Sample Text
 		String outputCorrectToken = "Das | Essen | gestern | Nacht | hat | großartig | geschmeckt | , | obwohl | der | Fisch | schlecht | ";
 		String outputCorrectValue = "داس | يسين | جتيرن | ناكهت | هات |  | جكهميكت |  | وبووهل | دير | فيش | شليكهت | ";
@@ -58,12 +65,12 @@ public class PolyglotTransliterationTest {
 		String outputTestEnd = "";
 		
 		// Loop over different TransliterationAnnotation-Tags and create the UIMA-Output.
-		for (TransliterationAnnotation transliteration : select(inputCas, TransliterationAnnotation.class)) {		
+		/*for (TransliterationAnnotation transliteration : select(inputCas, TransliterationAnnotation.class)) {
 			outputTestToken = outputTestToken + transliteration.getCoveredText() + " | ";
 			outputTestValue = outputTestValue + transliteration.getValue() + " | ";
 			outputTestBegin = outputTestBegin + transliteration.getBegin() + " | ";
 			outputTestEnd = outputTestEnd + transliteration.getEnd() + " | ";
-        }
+        }*/
 		
 		// JUnit-Test: CoveredText, Value, Begin, End
 		assertEquals(outputCorrectToken, outputTestToken);

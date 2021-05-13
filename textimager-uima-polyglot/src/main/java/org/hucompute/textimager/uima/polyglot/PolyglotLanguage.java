@@ -43,7 +43,7 @@ public class PolyglotLanguage  extends SegmenterBase {
 	@Override
 	public void process(JCas aJCas) throws AnalysisEngineProcessException {
 		if(POLYGLOT_LOCATION == null) {
-			POLYGLOT_LOCATION = "src/main/resources/org/hucompute/textimager/uima/polyglot/python/";
+			POLYGLOT_LOCATION = "src/main/resources/org.hucompute.textimager.uima.polyglot/python/";
 		}
 		
 		String inputText = aJCas.getDocumentText();
