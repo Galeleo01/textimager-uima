@@ -196,6 +196,8 @@ public abstract class JepAnnotator extends JCasAnnotator_ImplBase {
 			List<String> command = new ArrayList<>();
 	        command.add("bash");
 	        command.add(condaInstallScript.toString());
+	        //dodane GS
+			command.add("conda install numpy");
 	        command.add(condaDir.toString());
 	        command.add(condaVersion);
 	        command.add(condaInstallDir.toString());
@@ -272,6 +274,8 @@ public abstract class JepAnnotator extends JCasAnnotator_ImplBase {
 	        command.add(envPythonVersion);
 	        command.add(envDepsConda);
 	        command.add(envDepsPip);
+	        //dodane GS
+			command.add("conda install numpy");
 	        command.add(javaHome);
 	        System.out.println("installing now.....");
 			int status = runCommand(command);
@@ -333,6 +337,8 @@ public abstract class JepAnnotator extends JCasAnnotator_ImplBase {
 		        command.add(script.toString());
 		        command.add(condaInstallDir.toString());
 		        command.add(envName);
+		        //dodane GS
+				command.add("conda install numpy");
 		        System.out.println("running script now start...");
 				int status = runCommand(command);
 		        System.out.println("bash script: " + status);

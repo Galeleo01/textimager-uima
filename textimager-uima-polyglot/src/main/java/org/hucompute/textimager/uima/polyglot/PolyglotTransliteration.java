@@ -136,7 +136,13 @@ public class PolyglotTransliteration  extends PolyglotBase {
 				System.out.println("processing text part " + counter + "/" + texts.size());
 
 				// text to python interpreter
+
 				try {
+					//interpreter.exec("import os");
+					//interpreter.exec("import sys");
+					//interpreter.exec("import polyglot");
+					//interpreter.exec("from java.lang import System");
+
 					interpreter.set("text", (Object) text);
 					interpreter.exec("doc = Text(text)");
 

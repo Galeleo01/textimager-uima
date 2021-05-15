@@ -25,6 +25,7 @@ then
 else
 	echo "installing conda dependencies..."
 	echo "$DEPS_CONDA"
+	conda install numpy
 	conda install $DEPS_CONDA -y
 fi
 
@@ -35,6 +36,7 @@ then
 else
 	echo "installing pip dependencies..."
 	echo "$DEPS_PIP"
+	pip install numpy
 	pip install $DEPS_PIP --no-cache-dir --force-reinstall
 fi
 

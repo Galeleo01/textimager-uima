@@ -63,7 +63,11 @@ public abstract class PolyglotBase extends JepAnnotator{
         try {
             interpreter.exec("import os");
             interpreter.exec("import sys");
+            interpreter.exec("import numpy as np");
             interpreter.exec("import polyglot");
+            interpreter.exec("from polyglot.transliteration import Transliterator");
+            interpreter.exec("from polyglot.downloader import downloader");
+            //interpreter.exec("from polyglot.text import Text");
             interpreter.exec("from java.lang import System");
 
         } catch (JepException ex) {
