@@ -124,5 +124,6 @@
 		<module>textimager-uima-biofid-general-gazetteer</module>
 		<module>textimager-uima-steps</module>
 		<module>textimager-uima-polyglot</module>
-	</modules>
+        <module>textimager-uima-jpos</module>
+    </modules>
 </project>
