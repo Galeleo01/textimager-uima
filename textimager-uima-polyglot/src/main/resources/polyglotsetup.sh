@@ -24,3 +24,5 @@ conda install -n "$ENV_NAME" numpy
 # install models
 #echo "installing textblob/nltk corpora..."
 #python -m textblob.download_corpora
+
+#hello
