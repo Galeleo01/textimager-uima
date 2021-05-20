@@ -13,6 +13,7 @@ import jep.JepException;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.fit.descriptor.ConfigurationParameter;
 import org.apache.uima.fit.descriptor.TypeCapability;
+import org.apache.uima.fit.util.JCasUtil;
 import org.apache.uima.jcas.JCas;
 
 import de.tudarmstadt.ukp.dkpro.core.api.parameter.ComponentParameters;
@@ -65,17 +66,13 @@ public class PolyglotTransliteration  extends PolyglotBase {
 
 	}
 
-	private ArrayList<String> processTransliteration(JCas aJCas, int beginOffset) throws JepException {
-		ArrayList<String> output = (ArrayList<String>) interpreter.getValue("transliterate");
-		return output;
-	}
 
 	private void processSentences(JCas aJCas, int beginOffset) throws JepException {
 		@SuppressWarnings("unchecked")
 		ArrayList<HashMap<String, Object>> sents = (ArrayList<HashMap<String, Object>>) interpreter.getValue("sentiments");
 		sents.forEach(p -> {
-			int begin = ((Long) p.get("begin")).intValue() + beginOffset;
-			int end = ((Long) p.get("end")).intValue() + beginOffset;
+			int begin = ((Long) p.get("begin")).intValue();
+			int end = ((Long) p.get("end")).intValue();
 			Sentence sentAnno = new Sentence(aJCas, begin, end);
 			sentAnno.addToIndexes();
 		});
@@ -83,21 +80,26 @@ public class PolyglotTransliteration  extends PolyglotBase {
 
 	private Map<Integer, Map<Integer, Token>> processToken(JCas aJCas, int beginOffset) throws JepException {
 		Map<Integer, Map<Integer, Token>> tokensMap = new HashMap<>();
-
 		ArrayList<HashMap<String, Object>> output = (ArrayList<HashMap<String, Object>>) interpreter.getValue("tokens");
+		Integer counter = 0;
+
 		for (HashMap<String, Object> token : output) {
-			if (!(Boolean) token.get("is_space")) {
-				int begin = ((Long) token.get("idx")).intValue() + beginOffset;
+				int begin = counter;
 				int end = begin + ((Long) token.get("length")).intValue();
+
 				Token casToken = new Token(aJCas, begin, end);
 				casToken.addToIndexes();
-				/*if (!tokensMap.containsKey(begin)) {
-					tokensMap.put(begin, new HashMap<>());
-				}*/
-				if (!tokensMap.get(begin).containsKey(end)) {
-					tokensMap.get(begin).put(end, casToken);
+				if(((Long) token.get("length")).intValue()>1)
+				{
+					counter = end + 1;
+					TransliterationAnnotation trans = new TransliterationAnnotation(aJCas, begin, end);
+					trans.setValue((String)token.get("transliterate"));
+					trans.addToIndexes();
 				}
-			}
+				else
+				{
+					counter = end;
+				}
 		}
 		return tokensMap;
 	}
@@ -146,11 +148,11 @@ public class PolyglotTransliteration  extends PolyglotBase {
 					interpreter.set("text", (Object) text);
 					interpreter.exec("doc = Text(text)");
 
-					interpreter.exec("tokens = [{'length': len(token),'token_text':token, 'language': token.language, 'id':token.index } for token in doc.words]");
+					interpreter.exec("tokens = [{'length': len(token),'token_text':token, 'language': token.language, 'transliterate': token.transliterate('ar')  } for token in doc.words]");
 					interpreter.exec("sentiments = [{'begin': sent.start, 'end': sent.end} for sent in doc.sentences]");
 					interpreter.exec("pos = [{'tag': token.pos_tag,'idx': token.index,'length': len(token),'text': token } for token in doc.words]");
 					interpreter.exec("entities = [{'text': ent[0],'label': ent.post_tag}for ent in doc.entities]");
-					interpreter.exec("transliterate = [{'text': token,'transliterate': token.transliterate('ar') } for token in doc.words]");
+					//interpreter.exec("transliterate = [{'text': token,'transliterate': token.transliterate('ar') } for token in doc.words]");
 				} catch (JepException jepException) {
 					jepException.printStackTrace();
 				}
@@ -158,20 +160,27 @@ public class PolyglotTransliteration  extends PolyglotBase {
 
 				try {
 
-					// Sentences TODO
-					//processSentences(aJCas, beginOffset);
+					// Sentences
+					processSentences(aJCas, beginOffset);
 
-					// Tokenizer TODO
+					// Tokenizer and Transliterizer
 					Map<Integer, Map<Integer, Token>> tokensMap = processToken(aJCas, beginOffset);
 
-					// Tagger TODO
+					/*for (Token t : JCasUtil.select(aJCas, Token.class)) {
+						System.out.println("!~" + t.getCoveredText() + "!~");
+						System.out.println(t);
+					}*/
+
+					/*for (TransliterationAnnotation t : JCasUtil.select(aJCas, TransliterationAnnotation.class)) {
+						System.out.println("!~" + t.getCoveredText() + "!~");
+						System.out.println(t);
+					}*/
+
 					//processPOS(aJCas, beginOffset, tokensMap);
 
 					// NER TODO
 					//processNER(aJCas, beginOffset);
 
-					// Transliteration TODO
- 					//ArrayList<String>  TransliterationsMap = processTransliteration(aJCas, beginOffset);
 
 				} catch (JepException e) {
 					e.printStackTrace();

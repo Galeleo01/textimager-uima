@@ -36,6 +36,7 @@ then
 	echo "no pip dependencies"
 	echo "installing pip dependencies..."
 	echo "$DEPS_PIP"
+	sudo apt-get install python-numpy libicu-dev
 	pip install numpy
   pip install polyglot
   echo "install pyicu"
@@ -46,10 +47,11 @@ then
   pip install morfessor
   echo "polyglot download emb"
   #polyglot download embeddings2.en transliteration2.ar
-  sudo apt-get install python-numpy libicu-dev
+
 else
 	echo "installing pip dependencies..."
 	echo "$DEPS_PIP"
+	sudo apt-get install python-numpy libicu-dev
 	pip install numpy
   pip install polyglot
   echo "install pyicu"
@@ -60,7 +62,7 @@ else
   pip install morfessor
   echo "polyglot download emb"
   #polyglot download embeddings2.de transliteration2.ar
-  sudo apt-get install python-numpy libicu-dev
+
 	pip install $DEPS_PIP --no-cache-dir --force-reinstall
 fi
 

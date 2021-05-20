@@ -4,9 +4,11 @@ import static org.apache.uima.fit.util.JCasUtil.select;
 import static org.junit.Assert.*;
 import static org.apache.uima.fit.factory.AnalysisEngineFactory.createEngineDescription;
 
+import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
 import org.apache.uima.analysis_engine.AnalysisEngineDescription;
 import org.apache.uima.fit.factory.JCasFactory;
 import org.apache.uima.fit.pipeline.SimplePipeline;
+import org.apache.uima.fit.util.JCasUtil;
 import org.apache.uima.jcas.JCas;
 import org.junit.Test;
 
@@ -53,7 +55,7 @@ public class PolyglotTransliterationTest {
 
 		SimplePipeline.runPipeline(cas, polyglottransliteration);
 		// Sample Text
-		String outputCorrectToken = "Das | Essen | gestern | Nacht | hat | großartig | geschmeckt | , | obwohl | der | Fisch | schlecht | ";
+		String outputCorrectToken = "Das | Essen | gestern | Nacht | hat | großartig | geschmeckt | , | obwohl | der | Fisch | schlecht | . |";
 		String outputCorrectValue = "داس | يسين | جتيرن | ناكهت | هات |  | جكهميكت |  | وبووهل | دير | فيش | شليكهت | ";
 		String outputCorrectBegin = "0 | 4 | 10 | 18 | 24 | 28 | 38 | 48 | 50 | 57 | 61 | 67 | ";
 		String outputCorrectEnd = "3 | 9 | 17 | 23 | 27 | 37 | 48 | 49 | 56 | 60 | 66 | 75 | ";
@@ -65,11 +67,11 @@ public class PolyglotTransliterationTest {
 		String outputTestEnd = "";
 		
 		// Loop over different TransliterationAnnotation-Tags and create the UIMA-Output.
-		for (TransliterationAnnotation transliteration : select(cas, TransliterationAnnotation.class)) {
-			outputTestToken = outputTestToken + transliteration.getCoveredText() + " | ";
-			outputTestValue = outputTestValue + transliteration.getValue() + " | ";
-			outputTestBegin = outputTestBegin + transliteration.getBegin() + " | ";
-			outputTestEnd = outputTestEnd + transliteration.getEnd() + " | ";
+		for (TransliterationAnnotation t : JCasUtil.select(cas, TransliterationAnnotation.class)) {
+			outputTestToken = outputTestToken + t.getCoveredText() + " | ";
+			outputTestValue = outputTestValue + t.getValue() + " | ";
+			outputTestBegin = outputTestBegin + t.getBegin() + " | ";
+			outputTestEnd = outputTestEnd + t.getEnd() + " | ";
         }
 		
 		// JUnit-Test: CoveredText, Value, Begin, End
