@@ -8,6 +8,8 @@ import java.io.InputStreamReader;
 import java.lang.ProcessBuilder.Redirect;
 import java.util.*;
 
+import de.tudarmstadt.ukp.dkpro.core.api.lexmorph.type.pos.POS;
+import de.tudarmstadt.ukp.dkpro.core.api.ner.type.NamedEntity;
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Sentence;
 import jep.JepException;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
