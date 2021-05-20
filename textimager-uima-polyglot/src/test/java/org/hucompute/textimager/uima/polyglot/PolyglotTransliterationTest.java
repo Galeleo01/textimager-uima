@@ -15,9 +15,9 @@ import tansliterationAnnotation.type.TransliterationAnnotation;
 /**
 * PolyglotTransliterationTest
 *
-* @date 10.08.2017
+* @date 20.05.2021
 *
-* @author Alexander Sang
+* @author Grzegorz Siwiecki
 * @version 1.0
 *
 * This class provide several test cases for different languages. 
@@ -47,7 +47,7 @@ public class PolyglotTransliterationTest {
 		//SimplePipeline.runPipeline(inputCas, transliterationAnnotator);
 
 
-		JCas cas = JCasFactory.createText("Das ist ein IPhone von Apple.", "de");
+		JCas cas = JCasFactory.createText("Das Essen gestern Nacht hat großartig geschmeckt, obwohl der Fisch schlecht.", "de");
 
 		AnalysisEngineDescription polyglottransliteration = createEngineDescription(PolyglotTransliteration.class);
 
@@ -65,12 +65,12 @@ public class PolyglotTransliterationTest {
 		String outputTestEnd = "";
 		
 		// Loop over different TransliterationAnnotation-Tags and create the UIMA-Output.
-		/*for (TransliterationAnnotation transliteration : select(inputCas, TransliterationAnnotation.class)) {
+		for (TransliterationAnnotation transliteration : select(cas, TransliterationAnnotation.class)) {
 			outputTestToken = outputTestToken + transliteration.getCoveredText() + " | ";
 			outputTestValue = outputTestValue + transliteration.getValue() + " | ";
 			outputTestBegin = outputTestBegin + transliteration.getBegin() + " | ";
 			outputTestEnd = outputTestEnd + transliteration.getEnd() + " | ";
-        }*/
+        }
 		
 		// JUnit-Test: CoveredText, Value, Begin, End
 		assertEquals(outputCorrectToken, outputTestToken);

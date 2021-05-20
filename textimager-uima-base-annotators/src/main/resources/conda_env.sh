@@ -17,7 +17,8 @@ conda activate
 echo "creating new conda env named $ENV_NAME"
 conda create --name "$ENV_NAME" python="$ENV_PYTHON_VERSION" -y
 conda activate "$ENV_NAME"
-
+conda install pip
+pip install numpy
 # install conda packages
 if [ -z "$DEPS_CONDA" ]
 then
@@ -25,7 +26,7 @@ then
 else
 	echo "installing conda dependencies..."
 	echo "$DEPS_CONDA"
-	conda install numpy
+
 	conda install $DEPS_CONDA -y
 fi
 
@@ -33,13 +34,36 @@ fi
 if [ -z "$DEPS_PIP" ]
 then
 	echo "no pip dependencies"
+	echo "installing pip dependencies..."
+	echo "$DEPS_PIP"
+	pip install numpy
+  pip install polyglot
+  echo "install pyicu"
+  pip install pyicu
+  echo "install pycld2"
+  pip install pycld2
+  echo "install morfessor"
+  pip install morfessor
+  echo "polyglot download emb"
+  #polyglot download embeddings2.en transliteration2.ar
+  sudo apt-get install python-numpy libicu-dev
 else
 	echo "installing pip dependencies..."
 	echo "$DEPS_PIP"
 	pip install numpy
+  pip install polyglot
+  echo "install pyicu"
+  pip install pyicu
+  echo "install pycld2"
+  pip install pycld2
+  echo "install morfessor"
+  pip install morfessor
+  echo "polyglot download emb"
+  #polyglot download embeddings2.de transliteration2.ar
+  sudo apt-get install python-numpy libicu-dev
 	pip install $DEPS_PIP --no-cache-dir --force-reinstall
 fi
 
 # always install jep
 echo "installing jep package..."
-JAVA_HOME=$6 pip install jep --no-cache-dir --force-reinstall
+JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64/" pip install jep --no-cache-dir --force-reinstall

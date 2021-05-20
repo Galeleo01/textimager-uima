@@ -45,13 +45,13 @@ public abstract class PolyglotBase extends JepAnnotator{
             envDepsConda = "";
         }
         if (envPythonVersion == null || envPythonVersion.isEmpty()) {
-            envPythonVersion = "3.7";
+            envPythonVersion = "3.7"; //3.7
         }
         if (envName == null || envName.isEmpty()) {
-            envName = "textimager_polyglot230_py37_v8";
+            envName = "textimager_ta_py37Test1"; //textimager_polyglot230_py37_v8 textimager_ta_py38 textimager_ta_py37Test1
         }
         if (condaVersion == null || condaVersion.isEmpty()) {
-            condaVersion = "py37_4.8.3";
+            condaVersion = "py37_4.8.3"; //py37_4.8.3
         }
 
         System.out.println("initializing polyglot base class: conda");
@@ -63,12 +63,20 @@ public abstract class PolyglotBase extends JepAnnotator{
         try {
             interpreter.exec("import os");
             interpreter.exec("import sys");
-            interpreter.exec("import numpy as np");
+            //interpreter.exec("import numpy");
             interpreter.exec("import polyglot");
             interpreter.exec("from polyglot.transliteration import Transliterator");
             interpreter.exec("from polyglot.downloader import downloader");
-            //interpreter.exec("from polyglot.text import Text");
+            interpreter.exec("from polyglot.text import Text");
+            interpreter.exec("downloader.download('embeddings2.en')");
+            interpreter.exec("downloader.download('embeddings2.de')");
+            interpreter.exec("downloader.download('transliteration2.ar')");
+            interpreter.exec("downloader.download('transliteration2.de')");
+            interpreter.exec("downloader.download('ner2.de')");
+            interpreter.exec("downloader.download('pos2.de')");
+            interpreter.exec("from polyglot.mapping import Embedding");
             interpreter.exec("from java.lang import System");
+
 
         } catch (JepException ex) {
             throw new ResourceInitializationException(ex);
