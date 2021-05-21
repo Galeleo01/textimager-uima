@@ -36,25 +36,11 @@ public class PolyglotTransliterationTest {
 	 */
 	@Test
 	public void testTransliterationArabian() throws Exception {
-		// Create a new Engine Description.
-		//AnalysisEngineDescription languageAnnotator = createEngineDescription(PolyglotLanguage.class, PolyglotLanguage.PARAM_PYTHON_PATH, "/usr/bin/python");
-		//AnalysisEngineDescription sentenceAnnotator = createEngineDescription(PolyglotSentenceBoundary.class, PolyglotSentenceBoundary.PARAM_PYTHON_PATH, "/usr/bin/python");
-		//AnalysisEngineDescription tokenAnnotator = createEngineDescription(PolyglotTokenizer.class, PolyglotTokenizer.PARAM_PYTHON_PATH, "/usr/bin/python");
-		//AnalysisEngineDescription transliterationAnnotator = createEngineDescription(PolyglotTransliteration.class, PolyglotTransliteration.PARAM_PYTHON_PATH, "/usr/bin/python", PolyglotTransliteration.PARAM_TO_LANGUAGE_CODE, "ar");
-		
-		// Create a new JCas - "Holder"-Class for Annotation. 
-		//JCas inputCas = JCasFactory.createJCas();
 		
 		// Input
-		//inputCas.setDocumentText("Das Essen gestern Nacht hat großartig geschmeckt, obwohl der Fisch schlecht.");
-		
-		// Pipeline
-		//SimplePipeline.runPipeline(inputCas, languageAnnotator, sentenceAnnotator, tokenAnnotator, transliterationAnnotator);
-		//SimplePipeline.runPipeline(inputCas, transliterationAnnotator);
-
-
 		JCas cas = JCasFactory.createText("Das Essen gestern Nacht hat großartig geschmeckt, obwohl der Fisch schlecht.", "de");
 
+		// Create a new Engine Description.
 		AnalysisEngineDescription polyglottransliteration = createEngineDescription(PolyglotTransliteration.class);
 
 		SimplePipeline.runPipeline(cas, polyglottransliteration);
@@ -65,8 +51,8 @@ public class PolyglotTransliterationTest {
 		String outputCorrectEnd = "3 | 9 | 17 | 23 | 27 | 37 | 48 | 56 | 60 | 66 | 75 | ";
 
 		//POS
-		AnalysisEngineDescription polyglottpos = createEngineDescription(PolyglotPOS.class);
-		SimplePipeline.runPipeline(cas, polyglottpos);
+		//AnalysisEngineDescription polyglottpos = createEngineDescription(PolyglotPOS.class);
+		//SimplePipeline.runPipeline(cas, polyglottpos);
 //
 //		String outputCorrectToken = "Deutschland | ist | ein | Bundesstaat | in | Mitteleuropa | . | Er | besteht | aus | 16 | Ländern | und | ist | als | freiheitlich | - | demokratischer | und | sozialer | Rechtsstaat | verfasst | . | Die | Bundesrepublik | Deutschland | stellt | die | jüngste | Ausprägung | des | deutschen | Nationalstaates | dar | . | ";
 //		String outputCorrectValue = "PROPN | VERB | DET | NOUN | ADP | PROPN | PUNCT | PRON | VERB | ADP | NUM | NOUN | CONJ | VERB | ADP | ADJ | PUNCT | ADJ | CONJ | ADJ | NOUN | VERB | PUNCT | DET | PROPN | PROPN | VERB | DET | ADJ | NOUN | DET | ADJ | NOUN | ADV | PUNCT | ";

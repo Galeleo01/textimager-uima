@@ -125,5 +125,6 @@
 		<module>textimager-uima-steps</module>
 		<module>textimager-uima-polyglot</module>
         <module>textimager-uima-jpos</module>
+        <module>JuliLab</module>
     </modules>
 </project>
