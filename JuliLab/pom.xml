@@ -58,15 +58,5 @@
             <version>2.1.2</version>
         </dependency>
     </dependencies>
-    <organization>
-        <url>http://www.julielab.de</url>
-        <name>JULIE Lab, Germany</name>
-    </organization>
-    <url>https://github.com/JULIELab/jcore-base/tree/master/jcore-jpos-ae</url>
-    <licenses>
-        <license>
-            <name>BSD-2-Clause</name>
-            <url>https://opensource.org/licenses/BSD-2-Clause</url>
-        </license>
-    </licenses>
+
 </project>
