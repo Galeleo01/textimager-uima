@@ -57,6 +57,15 @@
             <artifactId>jcore-mallet-2.0.9</artifactId>
             <version>2.1.2</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/de.julielab/jcore-jpos-ae -->
+        <dependency>
+            <groupId>de.julielab</groupId>
+            <artifactId>jcore-jpos-ae</artifactId>
+            <version>2.5.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/resource/jar_files/jcore-jpos-ae-2.5.0.jar</systemPath>
+        </dependency>
     </dependencies>
+
 
 </project>
