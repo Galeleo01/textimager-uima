@@ -39,7 +39,7 @@ public abstract class PolyglotBase extends JepAnnotator{
             condaBashScript = "polyglotsetup.sh";
         }
         if (envDepsPip == null || envDepsPip.isEmpty()) {
-            envDepsPip = "polyglot==16.7.4";
+            envDepsPip = "polyglot==16.7.4 numpy==1.20.3 morfessor==2.0.6 pycld2==0.41 PyICU==2.7.3";
         }
         if (envDepsConda == null || envDepsConda.isEmpty()) {
             envDepsConda = "";
@@ -48,7 +48,7 @@ public abstract class PolyglotBase extends JepAnnotator{
             envPythonVersion = "3.7"; //3.7
         }
         if (envName == null || envName.isEmpty()) {
-            envName = "textimager_ta_py37Test1"; //textimager_polyglot230_py37_v8 textimager_ta_py38 textimager_ta_py37Test1
+            envName = "poly1"; //textimager_ta_py37Test1
         }
         if (condaVersion == null || condaVersion.isEmpty()) {
             condaVersion = "py37_4.8.3"; //py37_4.8.3
@@ -63,7 +63,7 @@ public abstract class PolyglotBase extends JepAnnotator{
         try {
             interpreter.exec("import os");
             interpreter.exec("import sys");
-            //interpreter.exec("import numpy");
+            interpreter.exec("import numpy");
             interpreter.exec("import polyglot");
             interpreter.exec("from polyglot.transliteration import Transliterator");
             interpreter.exec("from polyglot.downloader import downloader");

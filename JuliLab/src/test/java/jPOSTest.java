@@ -1,7 +1,8 @@
-import de.julielab.jcore.ae.jpos.postagger.POSAnnotator;
-import de.julielab.jcore.types.STTSMedPOSTag;
+//import de.julielab.jcore.ae.jpos.postagger.POSAnnotator;
+//import de.julielab.jcore.types.STTSMedPOSTag;
 import de.julielab.jcore.types.Sentence;
 import de.julielab.jcore.types.Token;
+//import de.julielab.jcore.ae.jpos.*;
 import org.apache.uima.UIMAFramework;
 import org.apache.uima.analysis_engine.AnalysisEngine;
 import org.apache.uima.cas.FSIterator;
