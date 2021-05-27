@@ -24,23 +24,25 @@ import static org.junit.Assert.assertEquals;
 
 public class jPOSTest {
 
-    String[] Text = {"Der kleine Baum", "Am blauen Himmel ziehen die Wolken"};
-    String[] Postags = {"ART;ADJA;NN;", "APPRART;ADJA;NN;VVFIN;ART;NN"};
+    String[] Text = {"Der kleine Baum", "Berlin ist eine große Stadt"};
+    String[] Postags = {"ART;ADJA;NN;", "NE;VAFIN;ART;ADJA;NN"};
 
     public void initCas(final JCas jcas, String text) {
-        jcas.reset();
         jcas.setDocumentText(text);
+
         final Sentence sentence = new Sentence(jcas);
         sentence.setBegin(0);
         sentence.setEnd(text.length());
         sentence.addToIndexes();
 
+        //split sentence to tokens
         String[] words = text.split(" ");
 
         //initialize index
         int index_start = 0;
         int index_end = 0;
 
+        //loop for all words
         for (String word : words) {
             final Token token = new Token(jcas);
             index_end = index_start + word.length();
@@ -59,20 +61,22 @@ public class jPOSTest {
         ResourceSpecifier posSpec = UIMAFramework.getXMLParser().parseResourceSpecifier(posXML);
         AnalysisEngine posAnnotator = UIMAFramework.produceAnalysisEngine(posSpec);
 
+        //create jcas object
         final JCas jcas = JCasFactory.createJCas();
-        // get test cas with sentence annotation
+
         for (int i=0; i<Text.length; i++){
-            initCas(jcas, Text[i]);
+            jcas.reset();
+            initCas(jcas, Text[i]); // initialize jcas
 
             posAnnotator.process(jcas);
             // get the offsets of the sentences
-            String predictedpostag = "";
+            String predicted_postag = "";
             for (Token token : JCasUtil.select(jcas, Token.class))
             {
-                predictedpostag = predictedpostag + token.getPosTag(0).getValue() + ";";
+                predicted_postag = predicted_postag + token.getPosTag(0).getValue() + ";";
             }
-            String correctpostag = Postags[i];
-            assertEquals(correctpostag, predictedpostag);
+            String correct_postag = Postags[i];
+            assertEquals(correct_postag, predicted_postag);
         }
 
     }
