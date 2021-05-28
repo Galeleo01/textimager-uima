@@ -27,14 +27,8 @@ public class jPOSTest {
     String[] Text = {"Der kleine Baum", "Berlin ist eine große Stadt"};
     String[] Postags = {"ART;ADJA;NN;", "NE;VAFIN;ART;ADJA;NN"};
 
-    public void initCas(final JCas jcas, String text) {
-        jcas.setDocumentText(text);
 
-        final Sentence sentence = new Sentence(jcas);
-        sentence.setBegin(0);
-        sentence.setEnd(text.length());
-        sentence.addToIndexes();
-
+    public void get_token(JCas jcas, String text) {
         //split sentence to tokens
         String[] words = text.split(" ");
 
@@ -44,7 +38,7 @@ public class jPOSTest {
 
         //loop for all words
         for (String word : words) {
-            final Token token = new Token(jcas);
+            Token token = new Token(jcas);
             index_end = index_start + word.length();
             token.setBegin(index_start);
             token.setEnd(index_end);
@@ -61,21 +55,27 @@ public class jPOSTest {
         ResourceSpecifier posSpec = UIMAFramework.getXMLParser().parseResourceSpecifier(posXML);
         AnalysisEngine posAnnotator = UIMAFramework.produceAnalysisEngine(posSpec);
 
-        //create jcas object
-        final JCas jcas = JCasFactory.createJCas();
-
         for (int i=0; i<Text.length; i++){
-            jcas.reset();
-            initCas(jcas, Text[i]); // initialize jcas
+            // initialize jcas
+            JCas jcas = JCasFactory.createText(Text[i]);
+
+            Sentence sentence = new Sentence(jcas);
+            sentence.setBegin(0);
+            sentence.setEnd(Text[i].length());
+            sentence.addToIndexes();
+
+            get_token(jcas, Text[i]);
 
             posAnnotator.process(jcas);
-            // get the offsets of the sentences
+            // get the postag
             String predicted_postag = "";
             for (Token token : JCasUtil.select(jcas, Token.class))
             {
                 predicted_postag = predicted_postag + token.getPosTag(0).getValue() + ";";
             }
             String correct_postag = Postags[i];
+
+            //compare the result
             assertEquals(correct_postag, predicted_postag);
         }
 
