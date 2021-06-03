@@ -54,7 +54,7 @@ public class Opennlp_Postag {
 
         XMLInputSource posXML = new XMLInputSource("src/test/resources/Opennlp_Postag/PosTagAnnotatorTest.xml");
         ResourceSpecifier posSpec = UIMAFramework.getXMLParser().parseResourceSpecifier(posXML);
-        AnalysisEngine open_nlp_parser = UIMAFramework.produceAnalysisEngine(posSpec);
+        AnalysisEngine open_nlp_postag = UIMAFramework.produceAnalysisEngine(posSpec);
 
         for (int i=0; i<Text.length; i++){
             // initialize jcas
@@ -67,7 +67,7 @@ public class Opennlp_Postag {
 
             get_cas(jcas, Text[i]);
 
-            open_nlp_parser.process(jcas);
+            open_nlp_postag.process(jcas);
 
             // get the parsing
             String predicted_postag = "";
