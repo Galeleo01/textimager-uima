@@ -87,13 +87,73 @@
 
         <dependency>
             <groupId>de.julielab</groupId>
-            <artifactId>jcore-jnet-ae</artifactId>
+            <artifactId>jcore-opennlp-parser-ae</artifactId>
             <version>2.5.0</version>
         </dependency>
 
         <dependency>
             <groupId>de.julielab</groupId>
-            <artifactId>jcore-opennlp-parser-ae</artifactId>
+            <artifactId>jcore-opennlp-sentence-ae</artifactId>
+            <version>2.5.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.julielab</groupId>
+            <artifactId>jcore-opennlp-token-ae</artifactId>
+            <version>2.5.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.julielab</groupId>
+            <artifactId>jcore-opennlp-chunk-ae</artifactId>
+            <version>2.5.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.julielab</groupId>
+            <artifactId>jcore-opennlp-postag-ae</artifactId>
+            <version>2.5.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.julielab</groupId>
+            <artifactId>jcore-acronym-ae</artifactId>
+            <version>2.5.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.julielab</groupId>
+            <artifactId>jcore-biolemmatizer-ae</artifactId>
+            <version>2.5.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.julielab</groupId>
+            <artifactId>jcore-biosem-ae</artifactId>
+            <version>2.5.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.julielab</groupId>
+            <artifactId>jcore-flair-ner-ae</artifactId>
+            <version>2.5.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.julielab</groupId>
+            <artifactId>jcore-flair-token-embedding-ae</artifactId>
+            <version>2.5.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.julielab</groupId>
+            <artifactId>jcore-ecn-code-ae</artifactId>
+            <version>2.5.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.julielab</groupId>
+            <artifactId>jcore-stanford-lemmatizer-ae</artifactId>
             <version>2.5.0</version>
         </dependency>
 

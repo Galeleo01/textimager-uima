@@ -62,7 +62,7 @@ public class Opennlp_Parser extends TestCase {
             String correct_postag = parsing[i];
 
             //compare the result
-            assertEquals(parsing[i], predicted_parsing);
+            assertEquals(correct_postag, predicted_parsing);
         }
     }
 }

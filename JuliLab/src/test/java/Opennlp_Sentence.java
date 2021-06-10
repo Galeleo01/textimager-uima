@@ -7,14 +7,13 @@ import org.apache.uima.fit.util.JCasUtil;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceSpecifier;
 import org.apache.uima.util.XMLInputSource;
-
-
+import org.junit.Test;
 import java.io.IOException;
-import java.util.Iterator;
+
 
 import static org.junit.Assert.assertEquals;
 
-public class Opennlp_sentence {
+public class Opennlp_Sentence {
     /**
      * Logger for this class
      */
@@ -23,10 +22,11 @@ public class Opennlp_sentence {
 
     String[] Offsets = {"0-15;16-32;"};
 
+    @Test
     public void testProcess() throws IOException, UIMAException {
 
         XMLInputSource sentenceXML = new XMLInputSource(
-                "src/test/resources/Opennlp_sentence/SentenceAnnotatorTest.xml");
+                "src/test/resources/Opennlp_Sentence/SentenceAnnotatorTest.xml");
         ResourceSpecifier sentenceSpec = UIMAFramework.getXMLParser().parseResourceSpecifier(
                 sentenceXML);
         AnalysisEngine sentenceAnnotator = UIMAFramework

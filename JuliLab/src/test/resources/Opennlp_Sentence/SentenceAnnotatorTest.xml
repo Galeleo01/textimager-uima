@@ -20,7 +20,7 @@
 <nameValuePair>
 <name>modelFile</name>
 <value>
-<string>src/test/resources/opennlp-sentence-model-biomed-en.bin</string>
+<string>src/test/resources/Opennlp_Sentence/opennlp-sentence-model-biomed-en.bin</string>
 </value>
 </nameValuePair>
 </configurationParameterSettings>

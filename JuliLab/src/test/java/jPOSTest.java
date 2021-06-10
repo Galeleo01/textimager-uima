@@ -2,24 +2,15 @@
 //import de.julielab.jcore.types.STTSMedPOSTag;
 import de.julielab.jcore.types.Sentence;
 import de.julielab.jcore.types.Token;
-//import de.julielab.jcore.ae.jpos.*;
 import org.apache.uima.UIMAFramework;
 import org.apache.uima.analysis_engine.AnalysisEngine;
-import org.apache.uima.cas.FSIterator;
-import org.apache.uima.fit.factory.AggregateBuilder;
 import org.apache.uima.fit.factory.JCasFactory;
-import org.apache.uima.fit.pipeline.SimplePipeline;
 import org.apache.uima.fit.util.JCasUtil;
 import org.apache.uima.jcas.JCas;
-import org.apache.uima.jcas.JFSIndexRepository;
-import org.apache.uima.jcas.cas.FSArray;
-import org.apache.uima.jcas.tcas.Annotation;
 import org.apache.uima.resource.ResourceSpecifier;
 import org.apache.uima.util.XMLInputSource;
 import org.junit.Test;
-import java.util.*;
 
-import static org.apache.uima.fit.factory.AnalysisEngineFactory.createEngineDescription;
 import static org.junit.Assert.assertEquals;
 
 public class jPOSTest {

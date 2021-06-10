@@ -2,37 +2,52 @@
 <analysisEngineDescription xmlns="http://uima.apache.org/resourceSpecifier">
   <frameworkImplementation>org.apache.uima.java</frameworkImplementation>
   <primitive>true</primitive>
-  <annotatorImplementationName>de.julielab.jcore.ae.opennlp.postag.PosTagAnnotator</annotatorImplementationName>
+  <annotatorImplementationName>de.julielab.jcore.ae.acronymtagger.main.AcronymAnnotator</annotatorImplementationName>
   <analysisEngineMetaData>
-    <name>jcore-opennlp-postag-ae</name>
+    <name>JCoRe AcronymAnnotator</name>
     <description />
     <version>2.5.1-SNAPSHOT</version>
-        <vendor />
+        <vendor>JULIE Lab Jena, Germany</vendor>
     <configurationParameters>
       <configurationParameter>
-        <name>modelFile</name>
-        <type>String</type>
+        <name>ConsistencyAnno</name>
+        <description>set true if AcronymAnnotator should annotate every occurence of shortforms in the text</description>
+        <type>Boolean</type>
         <multiValued>false</multiValued>
         <mandatory>true</mandatory>
       </configurationParameter>
       <configurationParameter>
-        <name>tagset</name>
-        <type>String</type>
+        <name>MaxLength</name>
+        <description>Define how far (how many words, ignoring stopwords) the AE is supposed too look for the beginning of the fullform.</description>
+        <type>Integer</type>
+        <multiValued>false</multiValued>
+        <mandatory>true</mandatory>
+      </configurationParameter>
+    <configurationParameter>
+        <name>Postprocessing</name>
+        <description>Activates a post processing that unifies overlapping abbreviations and fullforms.</description>
+        <type>Boolean</type>
         <multiValued>false</multiValued>
         <mandatory>false</mandatory>
       </configurationParameter>
     </configurationParameters>
     <configurationParameterSettings>
       <nameValuePair>
-        <name>modelFile</name>
+        <name>ConsistencyAnno</name>
         <value>
-          <string>src/test/resources/Opennlp_Postag/POSTagPennBioIE-3.0.bin.gz</string>
+          <boolean>true</boolean>
         </value>
       </nameValuePair>
       <nameValuePair>
-        <name>tagset</name>
+        <name>MaxLength</name>
         <value>
-          <string>de.julielab.jcore.types.PennBioIEPOSTag</string>
+          <integer>5</integer>
+        </value>
+      </nameValuePair>
+    <nameValuePair>
+        <name>Postprocessing</name>
+        <value>
+          <boolean>true</boolean>
         </value>
       </nameValuePair>
     </configurationParameterSettings>
@@ -46,11 +61,10 @@
     <capabilities>
       <capability>
         <inputs>
-          <type allAnnotatorFeatures="true">de.julielab.jcore.types.Token</type>
           <type allAnnotatorFeatures="true">de.julielab.jcore.types.Sentence</type>
         </inputs>
         <outputs>
-          <type allAnnotatorFeatures="true">de.julielab.jcore.types.POSTag</type>
+          <type allAnnotatorFeatures="true">de.julielab.jcore.types.Abbreviation</type>
         </outputs>
         <languagesSupported />
       </capability>

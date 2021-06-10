@@ -1,53 +1,52 @@
-import de.julielab.jcore.types.Chunk;
-import de.julielab.jcore.types.PennBioIEPOSTag;
-import de.julielab.jcore.types.Sentence;
-import de.julielab.jcore.types.Token;
-import junit.framework.TestCase;
+import de.julielab.jcore.types.*;
 import org.apache.uima.UIMAException;
 import org.apache.uima.UIMAFramework;
 import org.apache.uima.analysis_engine.AnalysisEngine;
-import org.apache.uima.fit.factory.AnalysisEngineFactory;
 import org.apache.uima.fit.factory.JCasFactory;
 import org.apache.uima.fit.util.JCasUtil;
 import org.apache.uima.jcas.JCas;
-import org.apache.uima.jcas.JFSIndexRepository;
 import org.apache.uima.jcas.cas.FSArray;
-import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.resource.ResourceSpecifier;
 import org.apache.uima.util.XMLInputSource;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import de.julielab.jcore.ae.opennlp.chunk.ChunkAnnotator;
 
 import java.io.IOException;
-import java.util.Iterator;
-import java.util.Set;
-import java.util.function.BiConsumer;
-import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
 
 public class Opennlp_chunk {
-    String[] Text = {"A study on the Prethcamide"};
-    String[] Postags = {"DT;NN;IN;DT;NN;"};
+    String[] Text = {"\"A study on the Prethcamide hydroxylation system in rat hepatic microsomes ."};
+    String[] Postags = {"DT NN IN DT NN NN NN IN NN JJ NNS ."};
     String[] Chunks = {"ChunkNP,ChunkPP,ChunkNP,ChunkPP,ChunkNP,"};
 
-    public void get_cas(JCas jcas, String text) {
+    public void get_cas(JCas jcas, String text, String postag) {
         //split sentence to tokens
         String[] words = text.split(" ");
+        String[] postags = postag.split(" ");
 
-        //initialize index
-        int index_start = 0;
-        int index_end = 0;
+        //initialize token index
+        int index_start_token = 0;
+        int index_end_token = 0;
 
         //loop for all words
-        for (String word : words) {
+        for (int i=0; i< words.length; i++) {
             Token token = new Token(jcas);
-            index_end = index_start + word.length();
-            token.setBegin(index_start);
-            token.setEnd(index_end);
+            index_end_token = index_start_token + words[i].length();
+            token.setBegin(index_start_token);
+            token.setEnd(index_end_token);
             token.addToIndexes();
-            index_start = index_end + 1;
+            index_start_token = index_end_token + 1;
+
+            POSTag pos = new POSTag(jcas);
+            pos.setValue(postags[i]);
+            pos.addToIndexes();
+
+            FSArray postagss = new FSArray(jcas, 5);
+            postagss.set(0, pos);
+            postagss.addToIndexes();
+            token.setPosTag(postagss);
+            System.out.println(token.getPosTag(0));
         }
     }
 
@@ -67,7 +66,7 @@ public class Opennlp_chunk {
             sentence.setEnd(Text[i].length());
             sentence.addToIndexes();
 
-            get_cas(jcas, Text[i]);
+            get_cas(jcas, Text[i], Postags[i]);
 
             open_nlp_chunk.process(jcas);
 
@@ -75,7 +74,7 @@ public class Opennlp_chunk {
             String predicted_chunk = "";
             for (Chunk chunk : JCasUtil.select(jcas, Chunk.class))
             {
-                predicted_chunk = predicted_chunk + chunk.getType().getShortName() + ";";
+                predicted_chunk = predicted_chunk + chunk.getType().getShortName() + ",";
             }
             String correct_chunk = Chunks[i];
 
