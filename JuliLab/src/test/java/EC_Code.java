@@ -12,7 +12,7 @@ import de.julielab.jcore.types.Enzyme;
 
 import java.io.IOException;
 
-public class EC_code {
+public class EC_Code {
     @Test
     public void testProcess() throws IOException, UIMAException {
         String[] Text = {"Acetylesterase has number EC 3.1.1.6"};

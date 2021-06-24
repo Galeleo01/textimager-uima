@@ -13,7 +13,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import java.io.IOException;
 
-public class Stanford_lemmatizer {
+public class Stanford_Lemmatizer {
     String[] Text = {"Plectranthus barbatus is a medicinal plant used to treat a wide range of disorders including seizure ."};
     String[] Postag = {"NN NN VBZ DT JJ NN VBN TO VB DT JJ NN IN NNS VBG NN ."};
     String[] Lemma = {"plectranthus;barbatus;be;a;medicinal;plant;use;to;treat;a;wide;range;of;disorder;include;seizure;.;"};

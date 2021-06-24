@@ -15,7 +15,7 @@ import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
 
-public class Opennlp_chunk {
+public class Opennlp_Chunk {
     String[] Text = {"\"A study on the Prethcamide hydroxylation system in rat hepatic microsomes ."};
     String[] Postags = {"DT NN IN DT NN NN NN IN NN JJ NNS ."};
     String[] Chunks = {"ChunkNP,ChunkPP,ChunkNP,ChunkPP,ChunkNP,"};

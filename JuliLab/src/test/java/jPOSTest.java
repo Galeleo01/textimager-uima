@@ -40,7 +40,7 @@ public class jPOSTest {
     }
 
     @Test
-    public void firstTest() throws Exception {
+    public void test_process() throws Exception {
 
         XMLInputSource posXML = new XMLInputSource("src/test/resources/POSTagAnnotatorTest.xml");
         ResourceSpecifier posSpec = UIMAFramework.getXMLParser().parseResourceSpecifier(posXML);

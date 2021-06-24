@@ -157,6 +157,69 @@
             <version>2.5.0</version>
         </dependency>
 
+        <dependency>
+            <groupId>de.julielab</groupId>
+            <artifactId>jcore-topic-indexing-ae</artifactId>
+            <version>2.5.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-configuration2</artifactId>
+            <version>2.4</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+            <version>1.9.3</version>
+        </dependency>
+        <dependency>
+            <groupId>de.julielab</groupId>
+            <artifactId>jcore-likelihood-assignment-ae</artifactId>
+            <version>2.5.0</version>
+        </dependency>
+        <dependency>
+            <groupId>de.julielab</groupId>
+            <artifactId>jcore-likelihood-detection-ae</artifactId>
+            <version>2.5.0</version>
+        </dependency>
+        <dependency>
+            <groupId>de.julielab</groupId>
+            <artifactId>jcore-lingpipe-porterstemmer-ae</artifactId>
+            <version>2.5.0</version>
+        </dependency>
+        <dependency>
+            <groupId>de.julielab</groupId>
+            <artifactId>jcore-linnaeus-species-ae</artifactId>
+            <version>2.5.0</version>
+        </dependency>
+        <dependency>
+            <groupId>de.julielab</groupId>
+            <artifactId>jcore-lingscope-ae</artifactId>
+            <version>2.5.0</version>
+        </dependency>
+        <dependency>
+            <groupId>de.julielab</groupId>
+            <artifactId>jcore-banner-ae</artifactId>
+            <version>2.5.0</version>
+        </dependency>
+        <dependency>
+            <groupId>de.julielab</groupId>
+            <artifactId>jcore-coordination-baseline-ae</artifactId>
+            <version>2.5.0</version>
+        </dependency>
+        <dependency>
+            <groupId>de.julielab</groupId>
+            <artifactId>jcore-mutationfinder-ae</artifactId>
+            <version>2.5.0</version>
+        </dependency>
+        <dependency>
+            <groupId>de.julielab</groupId>
+            <artifactId>jcore-feature-value-replacement-ae</artifactId>
+            <version>2.5.0</version>
+        </dependency>
+
+
+
     </dependencies>
 
 
