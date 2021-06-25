@@ -12,7 +12,7 @@ import org.junit.Test;
 import java.io.IOException;
 import static org.junit.Assert.assertEquals;
 
-public class Flair_NER1 {
+public class Flair_NER_python {
     String[] Text = {"Knockdown of SUB1 homolog by siRNA inhibits the early stages of HIV-1 replication in 293T cells infected with VSV-G pseudotyped HIV-1 ."};
     String[] Stemmer = {"Three;hors;were;go;contempl;around;bushi;bush;.;"};
 

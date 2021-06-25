@@ -12,7 +12,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class Mutationfinder1 {
+public class Mutationfinder_python {
     @Test
     public void test_process() throws Exception {
         String[] Text = {"njin"};

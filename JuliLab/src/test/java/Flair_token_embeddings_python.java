@@ -16,7 +16,7 @@ import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
 
-public class Flair_token_embeddings1 {
+public class Flair_token_embeddings_python {
     String[] Text = {"Dysregulated inflammation leads to morbidity and mortality in neonates . 97 healthy subjects were enrolled in the present study ."};
     String[] Postag = {"NN NN VBZ DT JJ NN VBN TO VB DT JJ NN IN NNS VBG NN ."};
     String[] Lemma = {"plectranthus;barbatus;be;a;medicinal;plant;use;to;treat;a;wide;range;of;disorder;include;seizure;.;"};
