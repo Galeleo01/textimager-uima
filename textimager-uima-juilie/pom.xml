@@ -56,10 +56,9 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.hucompute.textimager.uima</groupId>
+            <groupId>de.julielab</groupId>
             <artifactId>jcore-types</artifactId>
-            <version>0.3.0</version>
-            <scope>test</scope>
+            <version>2.5.1-SNAPSHOT</version>
         </dependency>
 
     </dependencies>
