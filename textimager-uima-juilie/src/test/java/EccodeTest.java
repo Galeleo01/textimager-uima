@@ -13,9 +13,9 @@ import static org.apache.uima.fit.factory.AnalysisEngineFactory.createEngineDesc
 public class EccodeTest {
     @Test
     public void testProcess() throws IOException, UIMAException {
-        JCas jCas = JCasFactory.createText("Three horses were going contemplatively around bushy bushes.");
+        JCas jCas = JCasFactory.createText("Acetylesterase has number EC 3.1.1.6");
 
-        AnalysisEngineDescription engine = createEngineDescription(Acronym.class, BioLemmatizer.PARAM_REST_ENDPOINT, "http://localhost:8080");
+        AnalysisEngineDescription engine = createEngineDescription(ECCode.class, ECCode.PARAM_REST_ENDPOINT, "http://localhost:8080");
 
         SimplePipeline.runPipeline(jCas, engine);
 
