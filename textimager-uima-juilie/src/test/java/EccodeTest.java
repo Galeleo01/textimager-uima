@@ -1,8 +1,24 @@
+import org.apache.uima.UIMAException;
 import org.apache.uima.analysis_engine.AnalysisEngine;
+import org.apache.uima.analysis_engine.AnalysisEngineDescription;
 import org.apache.uima.fit.factory.JCasFactory;
+import org.apache.uima.fit.pipeline.SimplePipeline;
 import org.apache.uima.jcas.JCas;
 import org.junit.Test;
 
-public class EccodeTest {
+import java.io.IOException;
 
+import static org.apache.uima.fit.factory.AnalysisEngineFactory.createEngineDescription;
+
+public class EccodeTest {
+    @Test
+    public void testProcess() throws IOException, UIMAException {
+        JCas jCas = JCasFactory.createText("Three horses were going contemplatively around bushy bushes.");
+
+        AnalysisEngineDescription engine = createEngineDescription(Acronym.class, BioLemmatizer.PARAM_REST_ENDPOINT, "http://localhost:8080");
+
+        SimplePipeline.runPipeline(jCas, engine);
+
+        //String stop = "";
+    }
 }
