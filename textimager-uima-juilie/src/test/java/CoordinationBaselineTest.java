@@ -1,10 +1,12 @@
 import de.julielab.jcore.types.Entity;
+import de.julielab.jcore.types.Enzyme;
 import de.julielab.jcore.types.POSTag;
 import de.julielab.jcore.types.Token;
 import org.apache.uima.UIMAException;
 import org.apache.uima.analysis_engine.AnalysisEngineDescription;
 import org.apache.uima.fit.factory.JCasFactory;
 import org.apache.uima.fit.pipeline.SimplePipeline;
+import org.apache.uima.fit.util.JCasUtil;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.cas.FSArray;
 import org.junit.Test;
@@ -12,6 +14,7 @@ import org.junit.Test;
 import java.io.IOException;
 
 import static org.apache.uima.fit.factory.AnalysisEngineFactory.createEngineDescription;
+import static org.junit.Assert.assertArrayEquals;
 
 public class CoordinationBaselineTest {
     String Text = "Almost all of these mutations occur in X , Y , and Z cells ; simple upstream and downstream sequence elements are indicated by negative elements .";
@@ -19,9 +22,6 @@ public class CoordinationBaselineTest {
     String Entity = "variation-event variation-location DNA";
     String Entity_Begin = "20 39 61";
     String Entity_End = "29 58 109";
-    String EEE = "X , Y , and Z cells;simple upstream and downstream sequence elements;";
-    String ellipsis = "X cells, Y cells, and Z cells;simple upstream sequence elements and simple downstream sequence elements;";
-    String coordination_labels = "conjunct;conjunction;conjunct;conjunction;conjunction;conjunct;antecedent;antecedent;conjunct;conjunction;conjunct;antecedent;antecedent;";
     public void init_jcas(JCas jcas, String sentences, String postags, String entities, String entities_begin, String entities_end) {
         //split sentence to tokens
         String[] tok = sentences.split(" ");
@@ -71,6 +71,12 @@ public class CoordinationBaselineTest {
 
         SimplePipeline.runPipeline(jCas, engine);
 
-        //String stop = "";
+        String[] casEnzyme = (String[]) JCasUtil.select(jCas, Enzyme.class).stream().map(a -> a.getSpecificType()).toArray(String[]::new);
+
+        String[] testEnzyme = new String[] {"3.1.1.6"};
+
+        assertArrayEquals(testEnzyme, casEnzyme);
+
+
     }
 }
