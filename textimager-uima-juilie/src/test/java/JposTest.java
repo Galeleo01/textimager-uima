@@ -14,7 +14,6 @@ import static org.apache.uima.fit.factory.AnalysisEngineFactory.createEngineDesc
 import static org.junit.Assert.assertArrayEquals;
 
 public class JposTest {
-    String Text = "Der kleine Baum";
 
     public void init_jcas(JCas jcas, String text) {
         //split sentence to tokens
@@ -36,6 +35,7 @@ public class JposTest {
     }
         @Test
         public void testProcess() throws IOException, UIMAException {
+            String Text = "Der kleine Baum";
             JCas jCas = JCasFactory.createText(Text);
             init_jcas(jCas, Text);
             AnalysisEngineDescription engine = createEngineDescription(Jpos.class, Jpos.PARAM_REST_ENDPOINT, "http://localhost:8080");

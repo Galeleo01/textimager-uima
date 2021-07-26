@@ -1,3 +1,4 @@
+import de.julielab.jcore.types.Chunk;
 import de.julielab.jcore.types.POSTag;
 import de.julielab.jcore.types.Token;
 import org.apache.uima.UIMAException;
@@ -13,7 +14,7 @@ import java.io.IOException;
 import static org.apache.uima.fit.factory.AnalysisEngineFactory.createEngineDescription;
 import static org.junit.Assert.assertArrayEquals;
 
-public class BioLemmatizerTest {
+public class OpennlpChunkTest {
     public void init_jcas(JCas jcas, String[] POSTAG) {
         //initialize index
         int index_start = 0;
@@ -34,7 +35,8 @@ public class BioLemmatizerTest {
     }
     @Test
     public void testProcess() throws IOException, UIMAException {
-        String Text = "Three horses were going contemplatively around bushy bushes .";
+        String Text = "\"A study on the Prethcamide hydroxylation system in rat hepatic microsomes .";
+
         JCas jCas = JCasFactory.createText(Text);
         // get postag
         AnalysisEngineDescription engine_postag = createEngineDescription(OpennlpPostag.class, OpennlpPostag.PARAM_REST_ENDPOINT, "http://localhost:8080");
@@ -42,19 +44,18 @@ public class BioLemmatizerTest {
         SimplePipeline.runPipeline(jCas, engine_postag);
 
         String[] casPostag = (String[]) JCasUtil.select(jCas, Token.class).stream().map(a -> a.getPosTag(0).getValue()).toArray(String[]::new);
+        // test chunk
         jCas.reset();
         jCas.setDocumentText(Text);
 
         init_jcas(jCas, casPostag);
-        AnalysisEngineDescription engine = createEngineDescription(BioLemmatizer.class, BioLemmatizer.PARAM_REST_ENDPOINT, "http://localhost:8080");
+        AnalysisEngineDescription engine = createEngineDescription(OpennlpChunk.class, OpennlpChunk.PARAM_REST_ENDPOINT, "http://localhost:8080");
 
         SimplePipeline.runPipeline(jCas, engine);
 
-        String[] casLemma = (String[]) JCasUtil.select(jCas, Token.class).stream().map(b -> b.getLemma().getValue()).toArray(String[]::new);
-        String[] testLemma = new String[] {"three", "horse", "be", "go", "contemplative",
-                                            "around", "bushy", "bush", "."};
+        String[] casChunks = (String[]) JCasUtil.select(jCas, Chunk.class).stream().map(b -> b.getType().getShortName()).toArray(String[]::new);
+        String[] testChunks = new String[]{"ChunkNP","ChunkPP","ChunkNP","ChunkPP","ChunkNP"};
 
-        assertArrayEquals(testLemma, casLemma);
+        assertArrayEquals(testChunks, casChunks);
     }
-
 }
