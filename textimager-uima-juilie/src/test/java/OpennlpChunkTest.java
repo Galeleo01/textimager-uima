@@ -29,13 +29,12 @@ public class OpennlpChunkTest {
             pos.setEnd(index_end);
             pos.setValue(POSTAG[i]);
             pos.addToIndexes();
-
             index_start = index_end + 1;
         }
     }
     @Test
     public void testProcess() throws IOException, UIMAException {
-        String Text = "\"A study on the Prethcamide hydroxylation system in rat hepatic microsomes .";
+        String Text = "A study on the Prethcamide hydroxylation system in rat hepatic microsomes .";
 
         JCas jCas = JCasFactory.createText(Text);
         // get postag
@@ -45,8 +44,6 @@ public class OpennlpChunkTest {
 
         String[] casPostag = (String[]) JCasUtil.select(jCas, Token.class).stream().map(a -> a.getPosTag(0).getValue()).toArray(String[]::new);
         // test chunk
-        jCas.reset();
-        jCas.setDocumentText(Text);
 
         init_jcas(jCas, casPostag);
         AnalysisEngineDescription engine = createEngineDescription(OpennlpChunk.class, OpennlpChunk.PARAM_REST_ENDPOINT, "http://localhost:8080");

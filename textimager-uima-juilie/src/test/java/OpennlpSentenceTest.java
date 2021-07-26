@@ -43,7 +43,7 @@ public class OpennlpSentenceTest {
         SimplePipeline.runPipeline(jCas, engine);
 
         String[] casSentence = (String[]) JCasUtil.select(jCas, Sentence.class).stream().map(a -> a.getBegin() + "-" + a.getEnd()).toArray(String[]::new);
-        String[] testSentence = new String[] {"0-12", "13-25"};
+        String[] testSentence = new String[] {"0-12", "13-26"};
 
         assertArrayEquals(testSentence, casSentence);
 

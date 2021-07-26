@@ -41,7 +41,7 @@ public class OpennlpTokenTest {
         SimplePipeline.runPipeline(jCas, engine);
 
         String[] casToken = (String[]) JCasUtil.select(jCas, Token.class).stream().map(a -> a.getBegin() + "-" + a.getEnd()).toArray(String[]::new);
-        String[] testtoken = new String[] {"0-4","5-8","9-11","12-17","18-25","26-29","30-32"};
+        String[] testtoken = new String[] {"0-4","5-8","9-11","12-17","18-25","26-29","30-33"};
 
         assertArrayEquals(testtoken, casToken);
 

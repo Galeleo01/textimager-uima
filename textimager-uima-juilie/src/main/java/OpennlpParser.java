@@ -48,14 +48,6 @@ public class OpennlpParser extends RestAnnotator {
         JsonReader reader = new JsonReader();
         reader.UpdateJsonToCas(jsonResult, aJCas);
 
-        for (Token token: JCasUtil.select(aJCas, Token.class))
-        {
-            de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token dtoken = new de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token(aJCas, token.getBegin(), token.getEnd());
-            POS postag = new POS(aJCas, token.getPosTag(0).getBegin(), token.getPosTag(0).getEnd());
-            postag.setPosValue(token.getPosTag(0).getValue());
-            dtoken.setPos(postag);
-            dtoken.addToIndexes();
-        }
-
     }
+
 }
