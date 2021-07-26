@@ -16,9 +16,10 @@ import static org.junit.Assert.assertArrayEquals;
 public class OpennlpSentenceTest {
 
     @Test
-    public void testProcess() throws IOException, UIMAException {
+    public void testEN() throws IOException, UIMAException {
         String Text = "First sentence. Second sentence!";
         JCas jCas = JCasFactory.createText(Text);
+        jCas.setDocumentLanguage("en");
 
         AnalysisEngineDescription engine = createEngineDescription(OpennlpSentence.class, OpennlpSentence.PARAM_REST_ENDPOINT, "http://localhost:8080");
 
@@ -26,6 +27,23 @@ public class OpennlpSentenceTest {
 
         String[] casSentence = (String[]) JCasUtil.select(jCas, Sentence.class).stream().map(a -> a.getBegin() + "-" + a.getEnd()).toArray(String[]::new);
         String[] testSentence = new String[] {"0-15", "16-32"};
+
+        assertArrayEquals(testSentence, casSentence);
+
+    }
+
+    @Test
+    public void testDE() throws IOException, UIMAException {
+        String Text = "Erster Satz. Zweiter Satz!";
+        JCas jCas = JCasFactory.createText(Text);
+        jCas.setDocumentLanguage("de");
+
+        AnalysisEngineDescription engine = createEngineDescription(OpennlpSentence.class, OpennlpSentence.PARAM_REST_ENDPOINT, "http://localhost:8080");
+
+        SimplePipeline.runPipeline(jCas, engine);
+
+        String[] casSentence = (String[]) JCasUtil.select(jCas, Sentence.class).stream().map(a -> a.getBegin() + "-" + a.getEnd()).toArray(String[]::new);
+        String[] testSentence = new String[] {"0-12", "13-25"};
 
         assertArrayEquals(testSentence, casSentence);
 
