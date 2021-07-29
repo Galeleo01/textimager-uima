@@ -51,7 +51,7 @@ public class StanfordLemmatizerTest {
         SimplePipeline.runPipeline(jCas, engine);
 
         String[] casLemma = (String[]) JCasUtil.select(jCas, Token.class).stream().map(b -> b.getLemma().getValue()).toArray(String[]::new);
-        String[] testLemma = new String[] {"plectranthus", "barbatus", "be", "a",
+        String[] testLemma = new String[] {"plectranthus", "Barbatus", "be", "a",
                 "medicinal", "plant", "use", "to", "treat", "a", "wide", "range", "of", "disorder", "include", "seizure", "."};
 
         assertArrayEquals(testLemma, casLemma);
