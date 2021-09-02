@@ -48,6 +48,7 @@ public class LikelihoodDetection extends RestAnnotator {
         JsonReader reader = new JsonReader();
         reader.UpdateJsonToCas(jsonResult, aJCas);
 
+            // conver
         /*for (Token token: JCasUtil.select(aJCas, Token.class))
         {
             de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token dtoken = new de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token(aJCas, token.getBegin(), token.getEnd());
